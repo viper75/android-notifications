@@ -13,7 +13,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String CHANNEL_ID = "My Channel";
+    private final String CHANNEL_ID = "MyChannel";
     private final int PENDING_INTENT_REQUEST_CODE = 1000;
     private final int NOTIFICATION_ID = 2000;
 
@@ -22,6 +22,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        createNotificationChannel();
+
+        findViewById(R.id.notification).setOnClickListener(v -> {
+            displayNotification();
+        });
+    }
+
+    public void displayNotification() {
         Intent intent = new Intent(this, AlertDetails.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, PENDING_INTENT_REQUEST_CODE, intent, 0);
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.notification_channel_name);
             String description = getString(R.string.notification_channel_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
