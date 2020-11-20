@@ -8,6 +8,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -36,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
+                .setVibrate(new long[]{0, 100, 100, 100, 100, 100})
                 .setContentTitle("Basic Notification")
-                .setContentText("Basic notification example to demonstrate how it works")
+                .setContentText("Basic notification example to demonstrate how it works. Wooah it really works")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
@@ -53,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
+            channel.setSound(null, null);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            channel.enableVibration(true);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
