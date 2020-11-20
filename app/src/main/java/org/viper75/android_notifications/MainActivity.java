@@ -2,6 +2,7 @@ package org.viper75.android_notifications;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,7 +14,8 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
 
     private final String CHANNEL_ID = "My Channel";
-    private final int PENDING_INTENT_REQUEST_CODE = 0;
+    private final int PENDING_INTENT_REQUEST_CODE = 1000;
+    private final int NOTIFICATION_ID = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
+
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        manager.notify(NOTIFICATION_ID, builder.build());
     }
 
     public void createNotificationChannel() {
