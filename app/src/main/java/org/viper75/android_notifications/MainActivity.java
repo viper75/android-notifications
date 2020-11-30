@@ -12,6 +12,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
+import static org.viper75.android_notifications.MyBroadcastReceiver.EXTRA_NOTIFICATION_ID;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String CHANNEL_ID = "MyChannel";
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, PENDING_INTENT_REQUEST_CODE, intent, 0);
 
+        Intent snoozeIntent = new Intent(this, MyBroadcastReceiver.class);
+        snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, NOTIFICATION_ID);
+        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, 0, snoozeIntent, 0);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setVibrate(new long[]{0, 100, 100, 100, 100, 100})
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContentText("Basic notification example to demonstrate how it works. Wooah it really works")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
+                .addAction(R.drawable.ic_snooze, "Snooze", snoozePendingIntent)
                 .setAutoCancel(true);
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
